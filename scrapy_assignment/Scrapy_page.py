@@ -20,23 +20,32 @@ class pensylvania:#(Spider):
                     next = self.driver.find_element_by_xpath('//*[@id="MainContent_btnSearch"]')
                     next.click()
                     url = 'https://www.pafoodsafety.pa.gov/Web/Inspection/PublicInspectionSearch.aspx'
-		    print "#########################################################################"
+		    #print "#########################################################################"
 		    html = self.driver.page_source
 		    #print html
 		    soup_level1=BeautifulSoup(html,"lxml")
 		    #print soup_level1
 		    datalist = [] #empty list
 		    x = 0 #counter
-		    print dir(soup_level1)
+		    #print dir(soup_level1)
 		    for table in soup_level1.find_all('table',id="MainContent_gvInspections"):
-			print dir(table)
+			#print dir(table)
 			rows = table.findAll('tr')
-			print dir(rows)
+			#inputTags =  rows.find(attrs={"name":"nonformattednameaddress"})
+			#print inputTags
+			#print output = [x['nonformattednameaddress'] for x in inputTags]
 			df = pd.read_html(str(table),header=0)
-			#print len(df)
+			print len(df)
+			print df
 			for dt in df:
 			    print "***********************************************************"
-			    #print dt[['Name / Address','Inspection Type']]
+			    #dt.columns
+			    dt.dropna(inplace=True,axis=1) 
+			    #print dt
+			    print dt.columns
+			    with open('mydata.csv','a') as f: 
+			        dt[['Name / Address']].to_csv('mydata.csv',sep=',',header=True,index=False,mode='a')
+				break
 		    #print dir(self.driver.page_source)
 		    #print "this is the type######################"
 		    #print type(html)
