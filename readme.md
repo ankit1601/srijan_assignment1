@@ -9,4 +9,4 @@ npm run serve (after successful build)
 
 go to Scrapy Project
 
-run Python <file_name.py>
+python <file_name.py>
